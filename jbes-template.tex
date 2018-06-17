@@ -284,7 +284,19 @@ A second reason why \citet{girardi} prefer $Tail\ CoVaR$ (besides the monotonici
 
 \noindent where $N$ is the number of $VaR$ violations of $j$, $x^{i}_n$ is the realisation of $X^{i}_n$, and $\mathbb{I}\left(\cdot\right)$ is the indicator function which is equal to one if the condition is true and zero otherwise. This subset has an expected cardinality of $\mathbb{E}\left[N\right]=(1-q) T$, provided that $\widehat{VaR}^j_{q,t}$ is correctly specified (where $T$ is the cardinality of the full set of $CoVaR$ predictions).
 
-Under the null hypothesis of a correctly specified $T$-$CoVaR$, it follows from (\ref{eq211}) that $\mathbb{P}\left[I^i_n=1 \right]=(1-q)$ and $\mathbb{P}\left[I^i_n=1 \left| I^i_{n-1}=1\right.\right]=\mathbb{P}\left[I^i_n=1 \left| I^i_{n-1}=0\right.\right]$. The first equation corresponds to the unconditional coverage test, which tests whether the fraction of hits is not significantly different from $(1-q)$. The second equation corresponds to the independence test, which tests whether the historic information set $\mathcal{F}_{n-1}$ provides no additional information about the occurrence of the hits. A third test is the conditional coverage test, which tests both hypotheses simultaneously \citep{christoffersen}.
+Under the null hypothesis of a correctly specified $T$-$CoVaR$, it follows from (\ref{eq211}) that $\mathbb{P}\left[I^i_n=1 \right]=(1-q)$ and $\mathbb{P}\left[I^i_n=1 \left| I^i_{n-1}=1\right.\right]=\mathbb{P}\left[I^i_n=1 \left| I^i_{n-1}=0\right.\right]$. This is tested by the following likelihood ratio tests \citep{christoffersen}:
+\begin{align}
+& LL_{unc}=log\left(\left(\frac{n_1}{N}\right)^{n_1} \left(\frac{n_0}{N}\right)^{n_0} \right)-log\left(\left(1-q\right)^{n_1} \left(q\right)^{n_0} \right), \label{chreq1}
+\\
+& LL_{ind}=log\left(\left(\frac{n_{11}}{n_1}\right)^{n_{11}}\left(\frac{n_{10}}{n_1}\right)^{n_{10}}\left(\frac{n_{01}}{n_0}\right)^{n_{01}} \left(\frac{n_{00}}{n_0}\right)^{n_{00}} \right)-log\left(\left(\frac{n_1}{N}\right)^{n_1} \left(\frac{n_0}{N}\right)^{n_0} \right), \label{chreq2}
+\\
+& LL_{con}=log\left(\left(\frac{n_{11}}{n_1}\right)^{n_{11}}\left(\frac{n_{10}}{n_1}\right)^{n_{10}}\left(\frac{n_{01}}{n_0}\right)^{n_{01}} \left(\frac{n_{00}}{n_0}\right)^{n_{00}} \right)-log\left(\left(1-q\right)^{n_1} \left(q\right)^{n_0} \right), \label{chreq3}
+\end{align}
+
+
+\noindent where $n_{1}$ is the number of ones in $I^i_n$, $n_0$ is the number of zeros, and $n_{01}$ is the number of zeros followed by a one. $n_{00}$,  $n_{10}$, and  $n_{11}$ are defined similarly.
+
+The first test statistic (\ref{chreq1}) corresponds to the unconditional coverage test, which tests whether the fraction of hits is not significantly different from $(1-q)$, and is asymptotically $\chi^2_{(1)}$ distributed. The second test statistic (\ref{chreq2}) corresponds to the independence test, which tests whether the historic information set $\mathcal{F}_{n-1}$ provides no additional information about the occurrence of the hits, and is asymptotically $\chi^2_{(1)}$ distributed. The third test statistic (\ref{chreq3}) corresponds to the conditional coverage test, which tests both hypotheses simultaneously and is assymptotically $\chi^2_{(2)}$ distributed.
 
 
 %%% 16 BACKTESTING Q %%%
@@ -310,8 +322,8 @@ Let $R\equiv -X^{i}_t$, $S\equiv -X^{j}_t$, $Y\equiv F_t (R\mid S)$, $f_t(r\mid 
 \begin{align*}
 \mathbb{P}\left[Y<y\mid \mathcal{G}_{t-1}\right]&=\mathbb{E}\left[1_{F_t(R, S)<y}\mid \mathcal{G}_{t-1}\right]=\mathbb{E}\left[1_{R<F_t^{-1}(y, S)}\mid \mathcal{G}_{t-1}\right]\\
 %&=\int_{-\infty}^{\infty}\int_{-\infty}^{F_t^{-1}(y, s)}f_t(r\mid s)f_t(s)\mathrm{d}r\mathrm{ds}\\
-&=\int_{-\infty}^{\infty}\int_{-\infty}^{F_t^{-1}(y, s)}f_t(r\mid s)\mathrm{d}r
-=\int_{-\infty}^{\infty}F_t(F^{-1}_t(y, s), s)=y.
+&=\int_{-\infty}^{F_t^{-1}(y, s)}f_t(r\mid s)\mathrm{d}r
+=F_t(F^{-1}_t(y, s), s)=y.
 \end{align*}\end{proof}
 %Instead of predicting a fixed value, we predict the $Q$-$CoVaR$ of $i$ as a function of the return loss of $j$ (\ref{eq11}). Next, we evaluate it at the observed return of $j$. We then use these ``realised $CoVaR$ predictions" to define the hit series (\ref{eq12}):
 %\begin{align}
@@ -376,7 +388,7 @@ logLR = \overset{T}{\underset{t=1}{\sum}} J^i_t \cdot log\left(\hat{\mathbb{P}}\
 \begin{equation}\label{girardinew}
 I_t\equiv \begin{cases}1,\quad \mbox{if } \int_{-\infty}^{-VaR^j_q}F_t (-x^{i}_t\mid s)f_t(s)\mathrm{d}s\leq (1-q)^2 \wedge F_t (-x^{j}_t) \leq 1-q,\\0,\quad \mbox{otherwise,}\end{cases}
 \end{equation}
-where $F_t (s)$ is the cdf of $-X_t^j$ conditional on $\mathcal{F}_{t-1}$ and $f_t(s)$ its derivative. $I_n$ in \eqref{Idef} is obtained by re-indexing the hit series \eqref{girardinew} to include only those observations for which $ F_t (-x^{j}_t) \leq 1-q$; in a slight abuse of notation, we use the same symbol for the two series, distinguishing them only by their subscript.  The implication tested by \citeauthor{girardi}'s (\citeyear{girardi}) test is
+where $F_t (s)$ is the cdf of $-X_t^j$ conditional on $\mathcal{F}_{t-1}$ and $f_t(s)$ its derivative. $I_n$ in \eqref{Idef} is obtained by re-indexing the hit series \eqref{girardinew} to include only those observations for which $ F_t (-x^{j}_t) \leq 1-q$; in a slight abuse of notation, we use the same symbol for the two series, distinguishing them only by their subscript.  The implication tested by \citet{girardi} via the likelihood ratio tests in Equation \ref{chreq1}, \ref{chreq2}, and \ref{chreq3} is
 \[
 \mathbb{E}[I_t\mid \mathcal{G}_{t-1}]=(1-q)N_t/t,
 \]
@@ -837,3 +849,4 @@ In this paper we focussed on the conditioning direction ``$VaR$ of the financial
 
 \bibliography{Bibliography-MM-MC}
 \end{document}
+
