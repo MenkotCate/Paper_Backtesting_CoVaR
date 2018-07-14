@@ -1,0 +1,11 @@
+sudo: required
+
+services:
+  - docker
+
+script:
+  # We use the docker image from https://hub.docker.com/r/rekka/tectonic/
+  - docker pull rekka/tectonic
+  # interactively:
+  # docker run -it --mount src=`pwd`,target=/usr/src/tex,type=bind rekka/tectonic
+  - docker run --mount src=$TRAVIS_BUILD_DIR/src,target=/usr/src/tex,type=bind rekka/tectonic tectonic main.tex
