@@ -8,4 +8,4 @@ script:
   - docker pull rekka/tectonic
   # interactively:
   # docker run -it --mount src=`pwd`,target=/usr/src/tex,type=bind rekka/tectonic
-  - docker run --mount src=$TRAVIS_BUILD_DIR/src/Paper_Backtesting_CoVaR,target=/usr/src/Paper_Backtesting_CoVaR/jbes-template.tex,type=bind rekka/tectonic tectonic main.tex
+  - docker run --mount src=$TRAVIS_BUILD_DIR/src,target=/usr/src/tex,type=bind rekka/tectonic tectonic jbes-template.tex
