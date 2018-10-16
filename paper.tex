@@ -29,7 +29,7 @@
 
 \if0\blind
 {
-  \title{\bf Backtesting CoVaR}
+  \title{\bf Making Systemic Risk Backtestable Again}
   \author{Author 1\\
     Department of YYY, University of XXX\\
     and \\
@@ -52,7 +52,7 @@
 \bigskip
 \begin{abstract}
 %In this paper we propose a new backtesting method for Conditional Value at Risk ($CoVaR$), a systemic risk measure introduced by \citet{adrian}. Instead of testing the subset of $CoVaR$ predictions in which the condition is satisfied (the approach used in previous research), we predict the $CoVaR$ as a function of its condition, and evaluate the predicted $CoVaR$ at the realisation of this condition. This allows us to perform tests on the full set of $CoVaR$ predictions. In our Monte Carlo study we show that our test is useful in a realistic setting and that it outperforms previous $CoVaR$ backtesting methods. Finally, we apply our test to real world data and use it to compare the performance of different $CoVaR$ prediction methods.
-We propose a new backtesting method for Delta-CoVaR. This measure of systemic risk is defined as the increase in Value of Risk of a financial institution when the financial system is in distress (i.e., when it violates its own VaR) compared to a non-distress state (when its return is at the median). By relying on a conditional version of the probability integral transform, we are able to exploit the entire sample of CoVaR predictions, rather than just the periods in which the system is in distress. A Monte Carlo study demonstrates that the new test has dramatically increased power vis-a-vis existing tests. An empirical application demonstrates the use of the test in a real-world scenario.
+We propose a general framework for backtesting systemic risk measures. a new backtesting method for Delta-CoVaR. This measure of systemic risk is defined as the increase in Value of Risk of a financial institution when the financial system is in distress (i.e., when it violates its own VaR) compared to a non-distress state (when its return is at the median). By relying on a conditional version of the probability integral transform, we are able to exploit the entire sample of CoVaR predictions, rather than just the periods in which the system is in distress. A Monte Carlo study demonstrates that the new test has dramatically increased power vis-a-vis existing tests. An empirical application demonstrates the use of the test in a real-world scenario.
 \end{abstract}
 {\it Keywords:}  Backtest; CoVaR; Systemic risk.
 \vfill
@@ -67,11 +67,19 @@ We propose a new backtesting method for Delta-CoVaR. This measure of systemic ri
 
 \section{Introduction}
 \section{Setup and Notation}
-\section{A new Backtest for $\Delta$CoVaR}
+Consider a financial system comprised of $N$ institutions, and denote by $L^j_t$ the loss of institution $j$ at time $t$, and by $X^j_t\equiv \log(X^j_{t-1})-\log(X^j_t)$ the relative loss. We use continuous compounding here, but this is immaterial.
+\section{A General Framework for Backtesting Systemic Risk Measures}
+Our framework builds on the Rosenblatt transform \citep{rosenblatt:52}
+\citet{diebold:98} advocates the use of graphical tools for evaluating the uniformity of the transformed series. \citet{berkowitz:01} proposes formal tests. \citet{campbell06} argues that this is a test of VaR for all levels.
+Lemma 1 in \citet{bai:03} shows that the indicator function is indeed i.i.d.\ uniform. This could be used to construct Goodness of Fit tests. However, such tests lack the interpretability of the ``counting exceedances'' approach, and are complicated by the fact that the asymptotic distribution is non-pivotal, requiring bootstrap procedures as in ... or modification via the device of \citet{kh:81} as in \citet{bai:03}. 
+
+
+We consider out-of-sample forecasts. %\citet{eo:10} only works there; see also \citet{engle}.
+Let $T$ denote the length of the estimation sample and $N$ the size of the evaluation sample, and let $T, N \Rightarrow \infty$, $N/T\Rightarrow 0$. Under these conditions, the estimation error in $\hat{\theta}$ is asymptotically negligible. \citet{eo:10} show how to modify the standard error of the unconditional VaR test when $N/T\Rightarrow\pi>0$. A similar adjustment may be possible here.
 \section{Finite Sample Properties}
 \subsection{Monte Carlo Design}
 \subsection{Size}
-\subsubsection{Power}
+\subsection{Power}
 \subsubsection{Misspecified Contemporaneous Dependence}
 \subsubsection{Misspecified Dynamics}
 \subsubsection{Misspecified Tails}

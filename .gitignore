@@ -5,3 +5,6 @@
 *.log
 *.synctex
 *.tps
+*.dvi
+*.bak
+*.sav
