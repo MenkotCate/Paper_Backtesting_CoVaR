@@ -16,6 +16,7 @@
 \addtolength{\textheight}{1.3in}%
 \addtolength{\topmargin}{-.8in}%
 \newtheorem{theorem}{Theorem}
+\newtheorem{assumption}{Assumption}
 
 \begin{document}
 
@@ -68,14 +69,16 @@ We propose a general framework for backtesting systemic risk measures. a new bac
 \section{Introduction}
 \section{Setup and Notation}
 Consider a financial system comprised of $N$ institutions, and denote by $L^j_t$ the loss of institution $j$ at time $t$, and by $X^j_t\equiv \log(X^j_{t-1})-\log(X^j_t)$ the relative loss. We use continuous compounding here, but this is immaterial.
+
+We make the following assumptions.
 \section{A General Framework for Backtesting Systemic Risk Measures}
 Our framework builds on the Rosenblatt transform \citep{rosenblatt:52}
 \citet{diebold:98} advocates the use of graphical tools for evaluating the uniformity of the transformed series. \citet{berkowitz:01} proposes formal tests. \citet{campbell06} argues that this is a test of VaR for all levels.
-Lemma 1 in \citet{bai:03} shows that the indicator function is indeed i.i.d.\ uniform. This could be used to construct Goodness of Fit tests. However, such tests lack the interpretability of the ``counting exceedances'' approach, and are complicated by the fact that the asymptotic distribution is non-pivotal, requiring bootstrap procedures as in ... or modification via the device of \citet{kh:81} as in \citet{bai:03}. 
+Lemma 1 in \citet{bai:03} shows that the indicator function is indeed i.i.d.\ uniform. This could be used to construct Goodness of Fit tests. However, such tests lack the interpretability of the ``counting exceedances'' approach, and are complicated by the fact that the asymptotic distribution is non-pivotal, requiring bootstrap procedures as in ... or modification via the device of \citet{kh:81} as in \citet{bai:03}.
 
 
 We consider out-of-sample forecasts. %\citet{eo:10} only works there; see also \citet{engle}.
-Let $T$ denote the length of the estimation sample and $N$ the size of the evaluation sample, and let $T, N \Rightarrow \infty$, $N/T\Rightarrow 0$. Under these conditions, the estimation error in $\hat{\theta}$ is asymptotically negligible. \citet{eo:10} show how to modify the standard error of the unconditional VaR test when $N/T\Rightarrow\pi>0$. A similar adjustment may be possible here.
+Let $T$ denote the length of the estimation sample and $N$ the size of the evaluation sample, and let $T, N \Rightarrow \infty$, $N/T\Rightarrow 0$. Under these conditions, we can derive the limiting distribution of the Wald test analogously to the proof of \citet[Theorem 5]{engle}. The distribution of the LR test then follows because $LR=N\log(1+W/N)=o_{\mathbb{P}}(1)$. When the the estimation and forecast samples are of similar magnitude (i.e., $N/T\Rightarrow\pi>0$), then the asymptotic variance should be modified as in \citet{mccracken} and \citet{eo:10}.
 \section{Finite Sample Properties}
 \subsection{Monte Carlo Design}
 \subsection{Size}
